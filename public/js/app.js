@@ -1989,17 +1989,6 @@ var Order = /*#__PURE__*/function (_Component) {
       });
     });
 
-    _defineProperty(_assertThisInitialized(_this), "handleGetProducts", function () {
-      var endpoint = "http://localhost:8000/api/products";
-      fetch(endpoint).then(function (res) {
-        return res.json();
-      }).then(function (data) {
-        _this.setState({
-          products: data.products
-        });
-      })["catch"](console.log);
-    });
-
     _defineProperty(_assertThisInitialized(_this), "handleRemoveProduct", function (e, key) {
       var _assertThisInitialize2 = _assertThisInitialized(_this),
           state = _assertThisInitialize2.state;
@@ -2025,6 +2014,17 @@ var Order = /*#__PURE__*/function (_Component) {
       _this.setState({
         cart: cart
       });
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "handleGetProducts", function () {
+      var endpoint = "http://localhost:8000/api/products";
+      fetch(endpoint).then(function (res) {
+        return res.json();
+      }).then(function (data) {
+        _this.setState({
+          products: data.products
+        });
+      })["catch"](console.log);
     });
 
     return _this;

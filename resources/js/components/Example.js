@@ -29,17 +29,6 @@ class Order extends Component {
         this.setState({ cart: cart });
     };
 
-    handleGetProducts = () => {
-        const endpoint = "http://localhost:8000/api/products";
-
-        fetch(endpoint)
-            .then((res) => res.json())
-            .then((data) => {
-                this.setState({ products: data.products });
-            })
-            .catch(console.log);
-    };
-
     handleRemoveProduct = (e, key) => {
         const { state } = this;
         const { cart } = state;
@@ -56,6 +45,17 @@ class Order extends Component {
         cart.products.push({ product_id: "", quantity: 0 });
 
         this.setState({ cart: cart });
+    };
+
+    handleGetProducts = () => {
+        const endpoint = "http://localhost:8000/api/products";
+
+        fetch(endpoint)
+            .then((res) => res.json())
+            .then((data) => {
+                this.setState({ products: data.products });
+            })
+            .catch(console.log);
     };
 
     render() {
