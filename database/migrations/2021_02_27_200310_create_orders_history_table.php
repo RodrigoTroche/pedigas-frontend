@@ -15,7 +15,12 @@ class CreateOrdersHistoryTable extends Migration
     {
         Schema::create('orders_history', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('order_id');
+            $table->unsignedBigInteger('status_id');
             $table->timestamps();
+
+            $table->foreign('order_id')->references('id')->on('orders');
+            $table->foreign('status_id')->references('id')->on('status');
         });
     }
 
