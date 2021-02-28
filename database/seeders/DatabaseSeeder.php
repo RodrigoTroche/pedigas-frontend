@@ -18,7 +18,8 @@ class DatabaseSeeder extends Seeder
             DepartmentSeeder::class,
             CitySeeder::class,
             ProductSeeder::class,
-            StatusSeeder::class
+            StatusSeeder::class,
+            PaymentMethodSeeder::class
         ]);
     }
 }

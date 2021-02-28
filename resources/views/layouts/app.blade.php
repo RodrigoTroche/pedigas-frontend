@@ -42,9 +42,6 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('pages.about') }}">Sobre nosotros</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('pages.order') }}">Hacer pedido</a>
-                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
