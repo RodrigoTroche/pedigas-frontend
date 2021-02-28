@@ -18,6 +18,10 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'last_name',
+        'document_type',
+        'document_number',
+        'phone_number',
         'email',
         'password',
     ];
@@ -40,4 +44,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getFullNameAttribute()
+    {
+        return $this->attributes['name'] . ' ' . $this->attributes['last_name'];
+    }
 }
