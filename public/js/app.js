@@ -1969,20 +1969,24 @@ var Order = /*#__PURE__*/function (_Component) {
     _defineProperty(_assertThisInitialized(_this), "state", {
       payments_methods: [],
       products: [],
+      cities: [],
       cart: {
         customer: {
-          name: "",
-          last_name: "",
-          phone_number: "",
-          document_number: "",
-          business_name: "",
+          name: "Rodrigo",
+          last_name: "Troche",
+          phone_number: "0986240980",
+          document_number: "5075936",
+          business_name: "Rodrigo Troche",
+          ruc: "5075936-1",
+          email: "rodrigo.troche15@gmail.com",
           address: {
-            main_street: null,
-            intersection_street_first: null,
+            main_street: "Amancio Gonzalez",
+            intersection_street_first: "Ecuador",
             intersection_street_second: null,
-            main_number: null,
-            contact: null,
-            reference: null
+            main_number: "1325",
+            contact: "Rodrigo Troche",
+            reference: "Casa de Rejas blancas y marrones",
+            city_id: 16
           }
         },
         products: [{
@@ -2079,6 +2083,17 @@ var Order = /*#__PURE__*/function (_Component) {
       })["catch"](console.log);
     });
 
+    _defineProperty(_assertThisInitialized(_this), "handleGetCities", function () {
+      var endpoint = "http://localhost:8000/api/cities";
+      fetch(endpoint).then(function (res) {
+        return res.json();
+      }).then(function (data) {
+        _this.setState({
+          cities: data.cities
+        });
+      })["catch"](console.log);
+    });
+
     _defineProperty(_assertThisInitialized(_this), "handleGetPaymentsMethods", function () {
       var endpoint = "http://localhost:8000/api/payments_methods";
       fetch(endpoint).then(function (res) {
@@ -2090,6 +2105,10 @@ var Order = /*#__PURE__*/function (_Component) {
       })["catch"](console.log);
     });
 
+    _defineProperty(_assertThisInitialized(_this), "handleSyncLocal", function () {
+      console.log("work");
+    });
+
     _defineProperty(_assertThisInitialized(_this), "handleSubmitOrder", function (e) {
       e.preventDefault();
 
@@ -2097,7 +2116,20 @@ var Order = /*#__PURE__*/function (_Component) {
           state = _assertThisInitialize7.state;
 
       var cart = state.cart;
-      console.log(cart);
+      var endpoint = "http://localhost:8000/api/orders";
+      fetch(endpoint, {
+        method: "POST",
+        body: JSON.stringify(cart),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }).then(function (res) {
+        return res.json();
+      })["catch"](function (error) {
+        return console.error("Error:", error);
+      }).then(function (response) {
+        return console.log("Success:", response);
+      });
     });
 
     return _this;
@@ -2108,6 +2140,7 @@ var Order = /*#__PURE__*/function (_Component) {
     value: function componentDidMount() {
       this.handleGetProducts();
       this.handleGetPaymentsMethods();
+      this.handleGetCities();
     }
   }, {
     key: "render",
@@ -2117,7 +2150,8 @@ var Order = /*#__PURE__*/function (_Component) {
       var state = this.state;
       var cart = state.cart,
           payments_methods = state.payments_methods,
-          products = state.products;
+          products = state.products,
+          cities = state.cities;
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
         className: "container",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
@@ -2187,6 +2221,7 @@ var Order = /*#__PURE__*/function (_Component) {
                   })
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_InfoShipping__WEBPACK_IMPORTED_MODULE_4__.default, {
                   cart: cart,
+                  cities: cities,
                   handleUpdateAddressInfo: this.handleUpdateAddressInfo
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
                   className: "row",
@@ -2501,13 +2536,41 @@ var InfoShipping = /*#__PURE__*/function (_Component) {
   _createClass(InfoShipping, [{
     key: "render",
     value: function render() {
-      var _cart$customer$addres, _cart$customer$addres2, _cart$customer$addres3, _cart$customer$addres4, _cart$customer$addres5, _cart$customer$addres6;
+      var _cart$customer$addres, _cart$customer$addres2, _cart$customer$addres3, _cart$customer$addres4, _cart$customer$addres5, _cart$customer$addres6, _cart$customer$addres7;
 
       var props = this.props;
-      var cart = props.cart;
+      var cart = props.cart,
+          cities = props.cities;
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
         className: "row",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+          className: "col-md-6",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+            className: "mb-3",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+              className: "form-floating",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("select", {
+                className: "form-select",
+                id: "floatingSelectCity",
+                "aria-label": "Ciudad",
+                name: "city_id",
+                value: (_cart$customer$addres = cart.customer.address.city_id) !== null && _cart$customer$addres !== void 0 ? _cart$customer$addres : "",
+                onChange: props.handleUpdateAddressInfo,
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+                  children: "Seleccione una opci\xF3n"
+                }), cities.map(function (city, key) {
+                  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+                    value: city.id,
+                    children: city.name
+                  }, key.toString());
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
+                htmlFor: "floatingSelectCity",
+                children: "Ciudad"
+              })]
+            })
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
           className: "col-md-6",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
             className: "form-floating mb-3",
@@ -2518,7 +2581,7 @@ var InfoShipping = /*#__PURE__*/function (_Component) {
               name: "main_street",
               id: "main_street",
               onChange: props.handleUpdateAddressInfo,
-              value: (_cart$customer$addres = cart.customer.address.main_street) !== null && _cart$customer$addres !== void 0 ? _cart$customer$addres : ""
+              value: (_cart$customer$addres2 = cart.customer.address.main_street) !== null && _cart$customer$addres2 !== void 0 ? _cart$customer$addres2 : ""
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
               htmlFor: "main_street",
               children: "Calle Principal *"
@@ -2535,7 +2598,7 @@ var InfoShipping = /*#__PURE__*/function (_Component) {
               name: "intersection_street_first",
               id: "intersection_street_first",
               onChange: props.handleUpdateAddressInfo,
-              value: (_cart$customer$addres2 = cart.customer.address.intersection_street_first) !== null && _cart$customer$addres2 !== void 0 ? _cart$customer$addres2 : ""
+              value: (_cart$customer$addres3 = cart.customer.address.intersection_street_first) !== null && _cart$customer$addres3 !== void 0 ? _cart$customer$addres3 : ""
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
               htmlFor: "intersection_street_first",
               children: "Calle Secundaria *"
@@ -2552,7 +2615,7 @@ var InfoShipping = /*#__PURE__*/function (_Component) {
               name: "intersection_street_second",
               id: "intersection_street_second",
               onChange: props.handleUpdateAddressInfo,
-              value: (_cart$customer$addres3 = cart.customer.address.intersection_street_second) !== null && _cart$customer$addres3 !== void 0 ? _cart$customer$addres3 : ""
+              value: (_cart$customer$addres4 = cart.customer.address.intersection_street_second) !== null && _cart$customer$addres4 !== void 0 ? _cart$customer$addres4 : ""
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
               htmlFor: "intersection_street_second",
               children: "Intersecci\xF3n 2"
@@ -2569,7 +2632,7 @@ var InfoShipping = /*#__PURE__*/function (_Component) {
               name: "main_number",
               id: "main_number",
               onChange: props.handleUpdateAddressInfo,
-              value: (_cart$customer$addres4 = cart.customer.address.main_number) !== null && _cart$customer$addres4 !== void 0 ? _cart$customer$addres4 : ""
+              value: (_cart$customer$addres5 = cart.customer.address.main_number) !== null && _cart$customer$addres5 !== void 0 ? _cart$customer$addres5 : ""
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
               htmlFor: "main_number",
               children: "N\xFAmero de Casa"
@@ -2586,7 +2649,7 @@ var InfoShipping = /*#__PURE__*/function (_Component) {
               name: "reference",
               id: "reference",
               onChange: props.handleUpdateAddressInfo,
-              value: (_cart$customer$addres5 = cart.customer.address.reference) !== null && _cart$customer$addres5 !== void 0 ? _cart$customer$addres5 : ""
+              value: (_cart$customer$addres6 = cart.customer.address.reference) !== null && _cart$customer$addres6 !== void 0 ? _cart$customer$addres6 : ""
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
               htmlFor: "reference",
               children: "Referencia"
@@ -2603,7 +2666,7 @@ var InfoShipping = /*#__PURE__*/function (_Component) {
               name: "contact",
               id: "contact",
               onChange: props.handleUpdateAddressInfo,
-              value: (_cart$customer$addres6 = cart.customer.address.contact) !== null && _cart$customer$addres6 !== void 0 ? _cart$customer$addres6 : ""
+              value: (_cart$customer$addres7 = cart.customer.address.contact) !== null && _cart$customer$addres7 !== void 0 ? _cart$customer$addres7 : ""
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
               htmlFor: "contact",
               children: "Contacto o Persona que recibe"

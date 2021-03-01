@@ -19,11 +19,12 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'last_name',
-        'document_type',
         'document_number',
         'phone_number',
         'email',
         'password',
+        'business_name',
+        'ruc'
     ];
 
     /**
@@ -48,5 +49,10 @@ class User extends Authenticatable
     public function getFullNameAttribute()
     {
         return $this->attributes['name'] . ' ' . $this->attributes['last_name'];
+    }
+
+    public function addresses()
+    {
+        return $this->hasMany('App\Models\Address', 'user_id', 'id');
     }
 }

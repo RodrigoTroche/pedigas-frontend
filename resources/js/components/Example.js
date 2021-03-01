@@ -9,20 +9,24 @@ class Order extends Component {
     state = {
         payments_methods: [],
         products: [],
+        cities: [],
         cart: {
             customer: {
-                name: "",
-                last_name: "",
-                phone_number: "",
-                document_number: "",
-                business_name: "",
+                name: "Rodrigo",
+                last_name: "Troche",
+                phone_number: "0986240980",
+                document_number: "5075936",
+                business_name: "Rodrigo Troche",
+                ruc: "5075936-1",
+                email: "rodrigo.troche15@gmail.com",
                 address: {
-                    main_street: null,
-                    intersection_street_first: null,
+                    main_street: "Amancio Gonzalez",
+                    intersection_street_first: "Ecuador",
                     intersection_street_second: null,
-                    main_number: null,
-                    contact: null,
-                    reference: null,
+                    main_number: "1325",
+                    contact: "Rodrigo Troche",
+                    reference: "Casa de Rejas blancas y marrones",
+                    city_id: 16,
                 },
             },
             products: [{ product_id: "", quantity: 1 }],
@@ -33,6 +37,7 @@ class Order extends Component {
     componentDidMount() {
         this.handleGetProducts();
         this.handleGetPaymentsMethods();
+        this.handleGetCities();
     }
 
     handleUpdateProduct = (e, key) => {
@@ -100,6 +105,17 @@ class Order extends Component {
             .catch(console.log);
     };
 
+    handleGetCities = () => {
+        const endpoint = "http://localhost:8000/api/cities";
+
+        fetch(endpoint)
+            .then((res) => res.json())
+            .then((data) => {
+                this.setState({ cities: data.cities });
+            })
+            .catch(console.log);
+    };
+
     handleGetPaymentsMethods = () => {
         const endpoint = "http://localhost:8000/api/payments_methods";
 
@@ -111,17 +127,31 @@ class Order extends Component {
             .catch(console.log);
     };
 
+    handleSyncLocal = () => {
+        console.log("work");
+    };
+
     handleSubmitOrder = (e) => {
         e.preventDefault();
         const { state } = this;
         const { cart } = state;
+        const endpoint = "http://localhost:8000/api/orders";
 
-        console.log(cart);
+        fetch(endpoint, {
+            method: "POST",
+            body: JSON.stringify(cart),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then((res) => res.json())
+            .catch((error) => console.error("Error:", error))
+            .then((response) => console.log("Success:", response));
     };
 
     render() {
         const { state } = this;
-        const { cart, payments_methods, products } = state;
+        const { cart, payments_methods, products, cities } = state;
 
         return (
             <div className="container">
@@ -191,6 +221,7 @@ class Order extends Component {
 
                                 <InfoShipping
                                     cart={cart}
+                                    cities={cities}
                                     handleUpdateAddressInfo={
                                         this.handleUpdateAddressInfo
                                     }

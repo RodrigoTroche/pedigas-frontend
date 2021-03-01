@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ProductsController;
 use App\Http\Controllers\Api\PaymentsMethodsController;
+use App\Http\Controllers\Api\OrdersController;
+use App\Http\Controllers\Api\CitiesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,3 +24,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('/products', [ProductsController::class, 'index']);
 Route::get('/payments_methods', [PaymentsMethodsController::class, 'index']);
+Route::get('/cities', [CitiesController::class, 'index']);
+Route::post('/orders', [OrdersController::class, 'store']);

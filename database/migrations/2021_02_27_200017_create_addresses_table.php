@@ -17,8 +17,8 @@ class CreateAddressesTable extends Migration
             $table->id();
             $table->string('main_street');
             $table->string('intersection_street_first');
-            $table->string('intersection_street_second');
-            $table->string('main_number');
+            $table->string('intersection_street_second')->nullable();
+            $table->string('main_number')->nullable();
             $table->integer('is_department')->default(0);
             $table->json('department')->nullable();
             //->default(json_encode([

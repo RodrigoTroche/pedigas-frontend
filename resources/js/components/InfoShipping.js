@@ -3,9 +3,34 @@ import React, { Component } from "react";
 class InfoShipping extends Component {
     render() {
         const { props } = this;
-        const { cart } = props;
+        const { cart, cities } = props;
         return (
             <div className="row">
+                <div className="col-md-6">
+                    <div className="mb-3">
+                        <div className="form-floating">
+                            <select
+                                className="form-select"
+                                id="floatingSelectCity"
+                                aria-label="Ciudad"
+                                name="city_id"
+                                value={cart.customer.address.city_id ?? ""}
+                                onChange={props.handleUpdateAddressInfo}
+                            >
+                                <option>Seleccione una opción</option>
+                                {cities.map((city, key) => (
+                                    <option
+                                        key={key.toString()}
+                                        value={city.id}
+                                    >
+                                        {city.name}
+                                    </option>
+                                ))}
+                            </select>
+                            <label htmlFor="floatingSelectCity">Ciudad</label>
+                        </div>
+                    </div>
+                </div>
                 <div className="col-md-6">
                     <div className="form-floating mb-3">
                         <input

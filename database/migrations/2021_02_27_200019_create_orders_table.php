@@ -21,9 +21,9 @@ class CreateOrdersTable extends Migration
             $table->text('user_raw_data');
             $table->text('address_raw_data');
             $table->integer('amount');
-            $table->text('comments');
+            $table->text('comments')->nullable();
             $table->integer('shipping_type')->default(1);
-            $table->string('schedule');
+            $table->string('schedule')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
@@ -35,7 +35,7 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->unsignedBigInteger('order_id');
             $table->unsignedBigInteger('product_id');
-            $table->unsignedBigInteger('product_name');
+            $table->string('product_name');
             $table->integer('price');
             $table->integer('quantity');
             $table->integer('total_amount');
