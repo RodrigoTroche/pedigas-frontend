@@ -1,15 +1,17 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 
-import ProductsCart from "./ProductsCart";
-import InfoContact from "./InfoContact";
-import InfoShipping from "./InfoShipping";
+import OrderDisplay from "./OrderDisplay";
+import SuccessDisplay from "./SuccessDisplay";
 
 class Order extends Component {
     state = {
+        page: "order",
         payments_methods: [],
         products: [],
         cities: [],
+        order: {},
+        message: {},
         cart: {
             customer: {
                 name: "Rodrigo",
@@ -146,146 +148,68 @@ class Order extends Component {
         })
             .then((res) => res.json())
             .catch((error) => console.error("Error:", error))
-            .then((response) => console.log("Success:", response));
+            .then((response) => {
+                if (response.success === true && response.code === 200) {
+                    this.setState({
+                        page: "success",
+                        order: response.body.order,
+                        message: response.body.message,
+                    });
+                }
+            });
+    };
+
+    handleResetCart = () => {
+        const resetCart = {
+            customer: {
+                name: "",
+                last_name: "",
+                phone_number: "",
+                document_number: "",
+                business_name: "",
+                ruc: "",
+                email: "",
+                address: {
+                    main_street: "",
+                    intersection_street_first: "",
+                    intersection_street_second: "",
+                    main_number: "",
+                    contact: "",
+                    reference: "",
+                    city_id: 16,
+                },
+            },
+            products: [{ product_id: "", quantity: 1 }],
+            payment_method: 1,
+        };
+
+        this.setState({ cart: { ...resetCart } });
     };
 
     render() {
         const { state } = this;
-        const { cart, payments_methods, products, cities } = state;
+        const { page, order, message } = state;
 
         return (
             <div className="container">
-                <div className="row justify-content-center">
-                    <div className="col-md-8">
-                        <h3>¡Hacé tu Pedido Acá!</h3>
-                    </div>
-                </div>
-                <div className="row justify-content-center">
-                    <div className="col-md-8">
-                        <div className="card mb-4 mt-4">
-                            <div className="card-body">
-                                <div className="row">
-                                    <div className="col-md-12">
-                                        <h5>Productos</h5>
-                                        <hr />
-                                    </div>
-                                </div>
+                {page === "order" ? (
+                    <OrderDisplay
+                        {...state}
+                        handleAddProduct={this.handleAddProduct}
+                        handleRemoveProduct={this.handleRemoveProduct}
+                        handleUpdateAddressInfo={this.handleUpdateAddressInfo}
+                        handleUpdateCustomerInfo={this.handleUpdateCustomerInfo}
+                        handleUpdatePaymentMethod={
+                            this.handleUpdatePaymentMethod
+                        }
+                        handleUpdateProduct={this.handleUpdateProduct}
+                        handleSubmitOrder={this.handleSubmitOrder}
+                    />
+                ) : null}
 
-                                <ProductsCart
-                                    handleUpdateProduct={
-                                        this.handleUpdateProduct
-                                    }
-                                    handleRemoveProduct={
-                                        this.handleRemoveProduct
-                                    }
-                                    cart={cart}
-                                    products={products}
-                                />
-
-                                <div className="row">
-                                    <div className="col-md-12 mt-3">
-                                        <button
-                                            className="btn btn-outline-primary btn-sm"
-                                            onClick={this.handleAddProduct}
-                                            title="Agregar más productos"
-                                        >
-                                            Agregar más
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="card">
-                            <div className="card-body">
-                                <div className="row">
-                                    <div className="col-md-12">
-                                        <h5>Información de Contacto</h5>
-                                        <hr />
-                                    </div>
-                                </div>
-
-                                <InfoContact
-                                    cart={cart}
-                                    handleUpdateCustomerInfo={
-                                        this.handleUpdateCustomerInfo
-                                    }
-                                />
-
-                                <div className="row">
-                                    <div className="col-md-12">
-                                        <h5>Información de Envío</h5>
-                                        <hr />
-                                    </div>
-                                </div>
-
-                                <InfoShipping
-                                    cart={cart}
-                                    cities={cities}
-                                    handleUpdateAddressInfo={
-                                        this.handleUpdateAddressInfo
-                                    }
-                                />
-
-                                <div className="row">
-                                    <div className="col-md-12">
-                                        <h5>Forma de pago</h5>
-                                        <hr />
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="col-md-6">
-                                        <div className="mb-3">
-                                            <div className="form-floating">
-                                                <select
-                                                    className="form-select"
-                                                    id="floatingSelectPayment"
-                                                    aria-label="Forma de Pago"
-                                                    name="payment_method"
-                                                    value={
-                                                        cart.payment_method ??
-                                                        ""
-                                                    }
-                                                    onChange={
-                                                        this
-                                                            .handleUpdatePaymentMethod
-                                                    }
-                                                >
-                                                    <option>
-                                                        Seleccione una opción
-                                                    </option>
-                                                    {payments_methods.map(
-                                                        (method, key) => (
-                                                            <option
-                                                                key={key.toString()}
-                                                                value={
-                                                                    method.id
-                                                                }
-                                                            >
-                                                                {method.name}
-                                                            </option>
-                                                        )
-                                                    )}
-                                                </select>
-                                                <label htmlFor="floatingSelectPayment">
-                                                    Forma de Pago
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="card-footer bg-white">
-                                <button
-                                    className="btn btn-success"
-                                    onClick={this.handleSubmitOrder}
-                                >
-                                    Confirmar pedido
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {page === "success" ? (
+                    <SuccessDisplay order={order} message={message} />
+                ) : null}
             </div>
         );
     }

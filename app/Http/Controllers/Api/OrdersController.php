@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use App\Models\User;
 use App\Models\Order;
 use App\Models\Address;
@@ -14,6 +15,13 @@ class OrdersController extends Controller
 {
     public function store(Request $request)
     {
+        $response = [
+            'code' => 200,
+            'success' => false,
+            'message' => '',
+            'body' => []
+        ];
+
         try {
             $data = $request->all();
 
@@ -48,13 +56,22 @@ class OrdersController extends Controller
                 ]
             );
 
+            $amount = 0;
+
+            foreach ($data['products'] as $item) {
+                $product = Product::find($item['product_id']);
+                $amount += $product->price * $item['quantity'];
+            }
+
             $order = Order::create([
                 'user_id' => $user->id,
                 'payment_method_id' => $data['payment_method'],
+                'code' => uniqid(),
+                'hash' => Str::random(40),
                 'shipping_address_id' => $address->id,
                 'user_raw_data' => $user,
                 'address_raw_data' => $address,
-                'amount' => 0,
+                'amount' => $amount,
                 'comments' => $data['comments'] ?? null,
                 'shipping_type' => $data['shipping_type'] ?? 1,
                 'schedule' => $data['schedule'] ?? null
@@ -73,12 +90,33 @@ class OrdersController extends Controller
                 ]);
             }
 
-            return response($order);
+            $order->makeHidden([
+                'user_id',
+                'shipping_address_id',
+                'payment_method_id',
+                'user_raw_data',
+                'address_raw_data',
+                'shipping_type',
+                'schedule',
+                'created_at',
+            ]);
 
-            // Se crea el pedido
-            $order = Order::create();
+            $message = [
+                'title' => 'Gracias por realizar tu pedido en PediGas',
+                'content' => "Estamos procesando tu orden  Nro. {$order->code}. Una vez que tu pedido sea enviado, te haremos saberlo. Puedes verificar el estado de tu pedido accediendo con tu usuario y contraseña."
+            ];
+
+            $response['code'] = 200;
+            $response['success'] = true;
+            $response['message'] = 'Bien! Tu pedido ha sido procesado.';
+            $response['body']['order'] = $order;
+            $response['body']['message'] = $message;
         } catch (\Exception $e) {
-            return response($e->getMessage());
+            $response['code'] = 500;
+            $response['success'] = false;
+            $response['message'] = 'Ups! Ocurrió un error al procesar tu solicitud. Por favor, intente nuevamente o comuniquese a Atencion al Cliente.';
         }
+
+        return response($response, $response['code']);
     }
 }

@@ -18,6 +18,8 @@ class CreateOrdersTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('payment_method_id');
             $table->unsignedBigInteger('shipping_address_id');
+            $table->string('code');
+            $table->string('hash');
             $table->text('user_raw_data');
             $table->text('address_raw_data');
             $table->integer('amount');

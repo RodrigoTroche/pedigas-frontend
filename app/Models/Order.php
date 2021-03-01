@@ -15,6 +15,8 @@ class Order extends Model
         'shipping_address_id',
         'user_raw_data',
         'address_raw_data',
+        'code',
+        'hash',
         'amount',
         'comments',
         'shipping_type',

@@ -5,14 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class OrderHistory extends Model
+class Status extends Model
 {
     use HasFactory;
 
-    protected $table = 'orders_history';
+    protected $table = 'status';
 
     protected $fillable = [
-        'order_id',
-        'status_id'
+        'name'
     ];
 }
