@@ -2687,7 +2687,7 @@ var OrderDisplay = /*#__PURE__*/function (_Component) {
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
           className: "row justify-content-center",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-            className: "col-md-8",
+            className: "col-md-8 text-center",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h3", {
               children: "\xA1Hac\xE9 tu Pedido Ac\xE1!"
             })
@@ -2705,7 +2705,7 @@ var OrderDisplay = /*#__PURE__*/function (_Component) {
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
                     className: "col-md-12",
                     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h5", {
-                      children: "Productos"
+                      children: "Eleg\xED tus productos"
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("hr", {})]
                   })
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_ProductsCart__WEBPACK_IMPORTED_MODULE_1__.default, {
@@ -2716,7 +2716,7 @@ var OrderDisplay = /*#__PURE__*/function (_Component) {
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
                   className: "row",
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-                    className: "col-md-12 mt-3",
+                    className: "col-md-12",
                     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
                       className: "btn btn-outline-primary btn-sm",
                       onClick: props.handleAddProduct,
@@ -2795,7 +2795,7 @@ var OrderDisplay = /*#__PURE__*/function (_Component) {
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
                 className: "card-footer bg-white",
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
-                  className: "btn btn-success",
+                  className: "btn btn-success w-100",
                   onClick: props.handleSubmitOrder,
                   children: "Confirmar pedido"
                 })

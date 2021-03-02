@@ -11,7 +11,7 @@ class OrderDisplay extends Component {
         return (
             <React.Fragment>
                 <div className="row justify-content-center">
-                    <div className="col-md-8">
+                    <div className="col-md-8 text-center">
                         <h3>¡Hacé tu Pedido Acá!</h3>
                     </div>
                 </div>
@@ -21,7 +21,7 @@ class OrderDisplay extends Component {
                             <div className="card-body">
                                 <div className="row">
                                     <div className="col-md-12">
-                                        <h5>Productos</h5>
+                                        <h5>Elegí tus productos</h5>
                                         <hr />
                                     </div>
                                 </div>
@@ -38,7 +38,7 @@ class OrderDisplay extends Component {
                                 />
 
                                 <div className="row">
-                                    <div className="col-md-12 mt-3">
+                                    <div className="col-md-12">
                                         <button
                                             className="btn btn-outline-primary btn-sm"
                                             onClick={props.handleAddProduct}
@@ -131,7 +131,7 @@ class OrderDisplay extends Component {
                             </div>
                             <div className="card-footer bg-white">
                                 <button
-                                    className="btn btn-success"
+                                    className="btn btn-success w-100"
                                     onClick={props.handleSubmitOrder}
                                 >
                                     Confirmar pedido

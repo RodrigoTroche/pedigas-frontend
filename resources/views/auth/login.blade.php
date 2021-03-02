@@ -10,6 +10,9 @@
                     <div class="mb-3 text-center">
                         <h4>Ingresá a tu cuenta</h4>
                     </div>
+                    <div class="mb-3 text-center">
+                        <p>Aún no tienes cuenta? <a href="{{ route('register') }}">{{ __('Register') }}</a></p>
+                    </div>
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 
@@ -18,8 +21,7 @@
                             <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
                                 name="email" id="email" value="{{ old('email') }}" required autocomplete="email"
                                 autofocus placeholder="{{ __('E-Mail Address') }}">
-                            <label for="email"
-                                class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+                            <label for="email" class="">{{ __('E-Mail Address') }}</label>
 
                             @error('email')
                             <span class="invalid-feedback" role="alert">
@@ -33,8 +35,7 @@
                                 class="form-control @error('password') is-invalid @enderror" name="password"
                                 id="password" required autocomplete="current-password"
                                 placeholder="{{ __('Password') }}">
-                            <label for="password"
-                                class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+                            <label for="password" class="">{{ __('Password') }}</label>
 
                             @error('password')
                             <span class="invalid-feedback" role="alert">
