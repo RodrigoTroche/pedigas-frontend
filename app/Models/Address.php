@@ -10,15 +10,23 @@ class Address extends Model
     use HasFactory;
 
     protected $fillable = [
-        'main_street',
-        'intersection_street_first',
-        'intersection_street_second',
+        'alias',
+        'main_address',
         'main_number',
+        'phone_number',
+        'email',
         'is_department',
         'department',
         'reference',
         'contact',
+        'business_name',
+        'ruc',
         'user_id',
         'city_id'
     ];
+
+    public function city()
+    {
+        return $this->belongsTo('App\Models\City', 'city_id', 'id');
+    }
 }

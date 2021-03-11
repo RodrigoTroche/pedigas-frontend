@@ -7,6 +7,7 @@ import SuccessDisplay from "./SuccessDisplay";
 class Order extends Component {
     state = {
         page: "order",
+        addresses: [],
         payments_methods: [],
         products: [],
         cities: [],
@@ -21,6 +22,7 @@ class Order extends Component {
                 business_name: "Rodrigo Troche",
                 ruc: "5075936-1",
                 email: "rodrigo.troche15@gmail.com",
+                address_id: null,
                 address: {
                     main_street: "Amancio Gonzalez",
                     intersection_street_first: "Ecuador",
@@ -40,6 +42,7 @@ class Order extends Component {
         this.handleGetProducts();
         this.handleGetPaymentsMethods();
         this.handleGetCities();
+        this.handleGetAddresses();
     }
 
     handleUpdateProduct = (e, key) => {
@@ -65,6 +68,15 @@ class Order extends Component {
         const { cart } = state;
 
         cart.customer.address[e.target.name] = e.target.value;
+
+        this.setState({ cart: cart });
+    };
+
+    handleUpdateAddress = (e) => {
+        const { state } = this;
+        const { cart } = state;
+
+        cart.customer[e.target.name] = e.target.value;
 
         this.setState({ cart: cart });
     };
@@ -129,6 +141,17 @@ class Order extends Component {
             .catch(console.log);
     };
 
+    handleGetAddresses = () => {
+        const endpoint = "http://localhost:8000/ajax/addresses";
+
+        fetch(endpoint)
+            .then((res) => res.json())
+            .then((data) => {
+                this.setState({ addresses: data.addresses });
+            })
+            .catch(console.log);
+    };
+
     handleSyncLocal = () => {
         console.log("work");
     };
@@ -137,13 +160,14 @@ class Order extends Component {
         e.preventDefault();
         const { state } = this;
         const { cart } = state;
-        const endpoint = "http://localhost:8000/api/orders";
+        const endpoint = "http://localhost:8000/orders";
 
         fetch(endpoint, {
             method: "POST",
             body: JSON.stringify(cart),
             headers: {
                 "Content-Type": "application/json",
+                "X-CSRF-TOKEN": csrf_token,
             },
         })
             .then((res) => res.json())
@@ -204,6 +228,7 @@ class Order extends Component {
                         }
                         handleUpdateProduct={this.handleUpdateProduct}
                         handleSubmitOrder={this.handleSubmitOrder}
+                        handleUpdateAddress={this.handleUpdateAddress}
                     />
                 ) : null}
 

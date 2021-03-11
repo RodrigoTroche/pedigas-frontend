@@ -15,10 +15,11 @@ class CreateAddressesTable extends Migration
     {
         Schema::create('addresses', function (Blueprint $table) {
             $table->id();
-            $table->string('main_street');
-            $table->string('intersection_street_first');
-            $table->string('intersection_street_second')->nullable();
+            $table->string('alias', 100);
+            $table->string('main_address');
             $table->string('main_number')->nullable();
+            $table->string('phone_number')->nullable();
+            $table->string('email')->nullable();
             $table->integer('is_department')->default(0);
             $table->json('department')->nullable();
             //->default(json_encode([
@@ -28,6 +29,9 @@ class CreateAddressesTable extends Migration
             // ]))
             $table->string('reference')->nullable();
             $table->string('contact')->nullable();
+
+            $table->string('business_name')->nullable();
+            $table->string('ruc')->nullable();
 
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('city_id');

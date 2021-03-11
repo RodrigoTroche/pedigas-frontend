@@ -22,4 +22,9 @@ class Order extends Model
         'shipping_type',
         'schedule'
     ];
+
+    public function address()
+    {
+        return $this->belongsTo('App\Models\Address', 'shipping_address_id', 'id');
+    }
 }

@@ -6,7 +6,7 @@ import InfoShipping from "./InfoShipping";
 class OrderDisplay extends Component {
     render() {
         const { props } = this;
-        const { cart, payments_methods, products, cities } = props;
+        const { cart, payments_methods, products, cities, addresses } = props;
 
         return (
             <React.Fragment>
@@ -77,8 +77,12 @@ class OrderDisplay extends Component {
                                 <InfoShipping
                                     cart={cart}
                                     cities={cities}
+                                    addresses={addresses}
                                     handleUpdateAddressInfo={
                                         props.handleUpdateAddressInfo
+                                    }
+                                    handleUpdateAddress={
+                                        props.handleUpdateAddress
                                     }
                                 />
 

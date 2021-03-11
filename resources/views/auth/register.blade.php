@@ -13,30 +13,36 @@
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
 
-                        <div class="mb-3 form-floating">
-                            <input id="name" type="text" class="form-control @error('name') is-invalid @enderror"
-                                name="name" id="name" value="{{ old('name') }}" required autocomplete="name" autofocus
-                                placeholder="{{ __('Name') }}">
-                            <label for="name" class="">{{ __('Name') }}</label>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3 form-floating">
+                                    <input id="name" type="text"
+                                        class="form-control @error('name') is-invalid @enderror" name="name" id="name"
+                                        value="{{ old('name') }}" required autocomplete="name" autofocus
+                                        placeholder="{{ __('Name') }}">
+                                    <label for="name" class="">{{ __('Name') }}</label>
 
-                            @error('name')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                        </div>
-
-                        <div class="form-floating mb-3">
-                            <input id="last_name" type="text"
-                                class="form-control @error('last_name') is-invalid @enderror" name="last_name"
-                                id="last_name" value="{{ old('last_name') }}" required autocomplete="last_name"
-                                autofocus placeholder="{{ __('Last Name') }}">
-                            <label for="last_name" class="text-md-right">{{ __('Last Name') }}</label>
-                            @error('last_name')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
+                                    @error('name')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input id="last_name" type="text"
+                                        class="form-control @error('last_name') is-invalid @enderror" name="last_name"
+                                        id="last_name" value="{{ old('last_name') }}" required autocomplete="last_name"
+                                        autofocus placeholder="{{ __('Last Name') }}">
+                                    <label for="last_name" class="text-md-right">{{ __('Last Name') }}</label>
+                                    @error('last_name')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
                         </div>
 
                         <div class="form-floating mb-3">

@@ -1970,6 +1970,7 @@ var Order = /*#__PURE__*/function (_Component) {
 
     _defineProperty(_assertThisInitialized(_this), "state", {
       page: "order",
+      addresses: [],
       payments_methods: [],
       products: [],
       cities: [],
@@ -1984,6 +1985,7 @@ var Order = /*#__PURE__*/function (_Component) {
           business_name: "Rodrigo Troche",
           ruc: "5075936-1",
           email: "rodrigo.troche15@gmail.com",
+          address_id: null,
           address: {
             main_street: "Amancio Gonzalez",
             intersection_street_first: "Ecuador",
@@ -2038,9 +2040,21 @@ var Order = /*#__PURE__*/function (_Component) {
       });
     });
 
-    _defineProperty(_assertThisInitialized(_this), "handleUpdatePaymentMethod", function (e) {
+    _defineProperty(_assertThisInitialized(_this), "handleUpdateAddress", function (e) {
       var _assertThisInitialize4 = _assertThisInitialized(_this),
           state = _assertThisInitialize4.state;
+
+      var cart = state.cart;
+      cart.customer[e.target.name] = e.target.value;
+
+      _this.setState({
+        cart: cart
+      });
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "handleUpdatePaymentMethod", function (e) {
+      var _assertThisInitialize5 = _assertThisInitialized(_this),
+          state = _assertThisInitialize5.state;
 
       var cart = state.cart;
       cart[e.target.name] = e.target.value;
@@ -2051,8 +2065,8 @@ var Order = /*#__PURE__*/function (_Component) {
     });
 
     _defineProperty(_assertThisInitialized(_this), "handleRemoveProduct", function (e, key) {
-      var _assertThisInitialize5 = _assertThisInitialized(_this),
-          state = _assertThisInitialize5.state;
+      var _assertThisInitialize6 = _assertThisInitialized(_this),
+          state = _assertThisInitialize6.state;
 
       var cart = state.cart;
       cart.products.splice(key, 1);
@@ -2063,8 +2077,8 @@ var Order = /*#__PURE__*/function (_Component) {
     });
 
     _defineProperty(_assertThisInitialized(_this), "handleAddProduct", function (e) {
-      var _assertThisInitialize6 = _assertThisInitialized(_this),
-          state = _assertThisInitialize6.state;
+      var _assertThisInitialize7 = _assertThisInitialized(_this),
+          state = _assertThisInitialize7.state;
 
       var cart = state.cart;
       cart.products.push({
@@ -2110,6 +2124,17 @@ var Order = /*#__PURE__*/function (_Component) {
       })["catch"](console.log);
     });
 
+    _defineProperty(_assertThisInitialized(_this), "handleGetAddresses", function () {
+      var endpoint = "http://localhost:8000/ajax/addresses";
+      fetch(endpoint).then(function (res) {
+        return res.json();
+      }).then(function (data) {
+        _this.setState({
+          addresses: data.addresses
+        });
+      })["catch"](console.log);
+    });
+
     _defineProperty(_assertThisInitialized(_this), "handleSyncLocal", function () {
       console.log("work");
     });
@@ -2117,16 +2142,17 @@ var Order = /*#__PURE__*/function (_Component) {
     _defineProperty(_assertThisInitialized(_this), "handleSubmitOrder", function (e) {
       e.preventDefault();
 
-      var _assertThisInitialize7 = _assertThisInitialized(_this),
-          state = _assertThisInitialize7.state;
+      var _assertThisInitialize8 = _assertThisInitialized(_this),
+          state = _assertThisInitialize8.state;
 
       var cart = state.cart;
-      var endpoint = "http://localhost:8000/api/orders";
+      var endpoint = "http://localhost:8000/orders";
       fetch(endpoint, {
         method: "POST",
         body: JSON.stringify(cart),
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "X-CSRF-TOKEN": csrf_token
         }
       }).then(function (res) {
         return res.json();
@@ -2184,6 +2210,7 @@ var Order = /*#__PURE__*/function (_Component) {
       this.handleGetProducts();
       this.handleGetPaymentsMethods();
       this.handleGetCities();
+      this.handleGetAddresses();
     }
   }, {
     key: "render",
@@ -2201,7 +2228,8 @@ var Order = /*#__PURE__*/function (_Component) {
           handleUpdateCustomerInfo: this.handleUpdateCustomerInfo,
           handleUpdatePaymentMethod: this.handleUpdatePaymentMethod,
           handleUpdateProduct: this.handleUpdateProduct,
-          handleSubmitOrder: this.handleSubmitOrder
+          handleSubmitOrder: this.handleSubmitOrder,
+          handleUpdateAddress: this.handleUpdateAddress
         })) : null, page === "success" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_SuccessDisplay__WEBPACK_IMPORTED_MODULE_3__.default, {
           order: order,
           message: message
@@ -2469,143 +2497,49 @@ var InfoShipping = /*#__PURE__*/function (_Component) {
   _createClass(InfoShipping, [{
     key: "render",
     value: function render() {
-      var _cart$customer$addres, _cart$customer$addres2, _cart$customer$addres3, _cart$customer$addres4, _cart$customer$addres5, _cart$customer$addres6, _cart$customer$addres7;
+      var _cart$customer$addres;
 
       var props = this.props;
       var cart = props.cart,
-          cities = props.cities;
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+          cities = props.cities,
+          addresses = props.addresses;
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
         className: "row",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
           className: "col-md-6",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
             className: "mb-3",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
               className: "form-floating",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("select", {
                 className: "form-select",
-                id: "floatingSelectCity",
-                "aria-label": "Ciudad",
-                name: "city_id",
-                value: (_cart$customer$addres = cart.customer.address.city_id) !== null && _cart$customer$addres !== void 0 ? _cart$customer$addres : "",
-                onChange: props.handleUpdateAddressInfo,
+                id: "floatingSelectAddress",
+                "aria-label": "Forma de Pago",
+                name: "address_id",
+                value: (_cart$customer$addres = cart.customer.address_id) !== null && _cart$customer$addres !== void 0 ? _cart$customer$addres : "",
+                onChange: props.handleUpdateAddress,
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
                   children: "Seleccione una opci\xF3n"
-                }), cities.map(function (city, key) {
+                }), addresses.map(function (address, key) {
                   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
-                    value: city.id,
-                    children: city.name
+                    value: address.id,
+                    children: address.main_address
                   }, key.toString());
                 })]
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
-                htmlFor: "floatingSelectCity",
-                children: "Ciudad"
+                htmlFor: "floatingSelectAddress",
+                children: "Direcci\xF3n"
               })]
             })
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-          className: "col-md-6",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-            className: "form-floating mb-3",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
-              type: "text",
-              className: "form-control",
-              placeholder: "Ej: Mcal. Lopez",
-              name: "main_street",
-              id: "main_street",
-              onChange: props.handleUpdateAddressInfo,
-              value: (_cart$customer$addres2 = cart.customer.address.main_street) !== null && _cart$customer$addres2 !== void 0 ? _cart$customer$addres2 : ""
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
-              htmlFor: "main_street",
-              children: "Calle Principal *"
-            })]
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-          className: "col-md-6",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-            className: "form-floating mb-3",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
-              type: "text",
-              className: "form-control",
-              placeholder: "Ej: Gral Santos",
-              name: "intersection_street_first",
-              id: "intersection_street_first",
-              onChange: props.handleUpdateAddressInfo,
-              value: (_cart$customer$addres3 = cart.customer.address.intersection_street_first) !== null && _cart$customer$addres3 !== void 0 ? _cart$customer$addres3 : ""
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
-              htmlFor: "intersection_street_first",
-              children: "Calle Secundaria *"
-            })]
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-          className: "col-md-6",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-            className: "form-floating mb-3",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
-              type: "text",
-              className: "form-control",
-              placeholder: "Ej: Gral Santos",
-              name: "intersection_street_second",
-              id: "intersection_street_second",
-              onChange: props.handleUpdateAddressInfo,
-              value: (_cart$customer$addres4 = cart.customer.address.intersection_street_second) !== null && _cart$customer$addres4 !== void 0 ? _cart$customer$addres4 : ""
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
-              htmlFor: "intersection_street_second",
-              children: "Intersecci\xF3n 2"
-            })]
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-          className: "col-md-6",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-            className: "form-floating mb-3",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
-              type: "text",
-              className: "form-control",
-              placeholder: "Ej: 1435",
-              name: "main_number",
-              id: "main_number",
-              onChange: props.handleUpdateAddressInfo,
-              value: (_cart$customer$addres5 = cart.customer.address.main_number) !== null && _cart$customer$addres5 !== void 0 ? _cart$customer$addres5 : ""
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
-              htmlFor: "main_number",
-              children: "N\xFAmero de Casa"
-            })]
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-          className: "col-md-6",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-            className: "form-floating mb-3",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
-              type: "text",
-              className: "form-control",
-              placeholder: "Ej: Casa con murallas de color blanco",
-              name: "reference",
-              id: "reference",
-              onChange: props.handleUpdateAddressInfo,
-              value: (_cart$customer$addres6 = cart.customer.address.reference) !== null && _cart$customer$addres6 !== void 0 ? _cart$customer$addres6 : ""
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
-              htmlFor: "reference",
-              children: "Referencia"
-            })]
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-          className: "col-md-6",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-            className: "form-floating mb-3",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
-              type: "text",
-              className: "form-control",
-              placeholder: "Ej: Pedro",
-              name: "contact",
-              id: "contact",
-              onChange: props.handleUpdateAddressInfo,
-              value: (_cart$customer$addres7 = cart.customer.address.contact) !== null && _cart$customer$addres7 !== void 0 ? _cart$customer$addres7 : ""
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
-              htmlFor: "contact",
-              children: "Contacto o Persona que recibe"
-            })]
-          })
-        })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+            className: "mb-3",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
+              className: "btn btn-outline-primary btn-sm",
+              href: "mi-cuenta/direcciones/crear",
+              children: "Agregar una direcci\xF3n"
+            })
+          })]
+        })
       });
     }
   }]);
@@ -2682,7 +2616,8 @@ var OrderDisplay = /*#__PURE__*/function (_Component) {
       var cart = props.cart,
           payments_methods = props.payments_methods,
           products = props.products,
-          cities = props.cities;
+          cities = props.cities,
+          addresses = props.addresses;
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
           className: "row justify-content-center",
@@ -2752,7 +2687,9 @@ var OrderDisplay = /*#__PURE__*/function (_Component) {
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_InfoShipping__WEBPACK_IMPORTED_MODULE_3__.default, {
                   cart: cart,
                   cities: cities,
-                  handleUpdateAddressInfo: props.handleUpdateAddressInfo
+                  addresses: addresses,
+                  handleUpdateAddressInfo: props.handleUpdateAddressInfo,
+                  handleUpdateAddress: props.handleUpdateAddress
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
                   className: "row",
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
