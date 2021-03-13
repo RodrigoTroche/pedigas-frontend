@@ -1976,25 +1976,17 @@ var Order = /*#__PURE__*/function (_Component) {
       cities: [],
       order: {},
       message: {},
+      user: {},
       cart: {
         customer: {
-          name: "Rodrigo",
-          last_name: "Troche",
-          phone_number: "0986240980",
-          document_number: "5075936",
-          business_name: "Rodrigo Troche",
-          ruc: "5075936-1",
-          email: "rodrigo.troche15@gmail.com",
-          address_id: null,
-          address: {
-            main_street: "Amancio Gonzalez",
-            intersection_street_first: "Ecuador",
-            intersection_street_second: null,
-            main_number: "1325",
-            contact: "Rodrigo Troche",
-            reference: "Casa de Rejas blancas y marrones",
-            city_id: 16
-          }
+          name: "",
+          last_name: "",
+          phone_number: "",
+          document_number: "",
+          business_name: "",
+          ruc: "",
+          email: "",
+          address_id: null
         },
         products: [{
           product_id: "",
@@ -2124,6 +2116,34 @@ var Order = /*#__PURE__*/function (_Component) {
       })["catch"](console.log);
     });
 
+    _defineProperty(_assertThisInitialized(_this), "handleGetUserData", function () {
+      var _assertThisInitialize8 = _assertThisInitialized(_this),
+          state = _assertThisInitialize8.state;
+
+      var cart = state.cart;
+      var endpoint = "http://localhost:8000/ajax/account/user";
+      fetch(endpoint).then(function (res) {
+        return res.json();
+      }).then(function (data) {
+        var user = data.user;
+        cart.customer = {
+          name: user.name,
+          last_name: user.last_name,
+          phone_number: user.phone_number,
+          document_number: user.document_number,
+          business_name: user.business_name,
+          ruc: user.ruc,
+          email: user.email,
+          address_id: null
+        };
+
+        _this.setState({
+          user: data.user,
+          cart: cart
+        });
+      })["catch"](console.log);
+    });
+
     _defineProperty(_assertThisInitialized(_this), "handleGetAddresses", function () {
       var endpoint = "http://localhost:8000/ajax/addresses";
       fetch(endpoint).then(function (res) {
@@ -2142,8 +2162,8 @@ var Order = /*#__PURE__*/function (_Component) {
     _defineProperty(_assertThisInitialized(_this), "handleSubmitOrder", function (e) {
       e.preventDefault();
 
-      var _assertThisInitialize8 = _assertThisInitialized(_this),
-          state = _assertThisInitialize8.state;
+      var _assertThisInitialize9 = _assertThisInitialized(_this),
+          state = _assertThisInitialize9.state;
 
       var cart = state.cart;
       var endpoint = "http://localhost:8000/orders";
@@ -2211,6 +2231,7 @@ var Order = /*#__PURE__*/function (_Component) {
       this.handleGetPaymentsMethods();
       this.handleGetCities();
       this.handleGetAddresses();
+      this.handleGetUserData();
     }
   }, {
     key: "render",

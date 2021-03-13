@@ -20,8 +20,10 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-body">
+                            <span class="badge bg-success">Entregado</span>
                             <h5 class="card-title">Pedido: {{ $order->code }}</h5>
                             <div class="mb-3">
+                                <span>{{ $order->created_at->format('Y-m-d') }}</span><br>
                                 <span>Gs. {{ $order->amount }}</span><br>
                                 <span>{{ $order->address->main_address }}</span>
                                 <br>

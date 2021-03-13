@@ -25,14 +25,28 @@
     var csrf_token = '<?php echo csrf_token(); ?>';
     </script>
 
+    <style>
+    .bg-blue {
+        background-color: #1b4593;
+    }
+
+    .bg-orange {
+        background-color: #e8840f;
+    }
+
+    .bg-blue .navbar-nav .nav-link {
+        color: #fff;
+    }
+    </style>
+
 </head>
 
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md bg-blue shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                    <img src="{{ asset('images/logo.png') }}" style="height: 40px" />
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
                     data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"

@@ -13,25 +13,17 @@ class Order extends Component {
         cities: [],
         order: {},
         message: {},
+        user: {},
         cart: {
             customer: {
-                name: "Rodrigo",
-                last_name: "Troche",
-                phone_number: "0986240980",
-                document_number: "5075936",
-                business_name: "Rodrigo Troche",
-                ruc: "5075936-1",
-                email: "rodrigo.troche15@gmail.com",
+                name: "",
+                last_name: "",
+                phone_number: "",
+                document_number: "",
+                business_name: "",
+                ruc: "",
+                email: "",
                 address_id: null,
-                address: {
-                    main_street: "Amancio Gonzalez",
-                    intersection_street_first: "Ecuador",
-                    intersection_street_second: null,
-                    main_number: "1325",
-                    contact: "Rodrigo Troche",
-                    reference: "Casa de Rejas blancas y marrones",
-                    city_id: 16,
-                },
             },
             products: [{ product_id: "", quantity: 1 }],
             payment_method: 1,
@@ -43,6 +35,7 @@ class Order extends Component {
         this.handleGetPaymentsMethods();
         this.handleGetCities();
         this.handleGetAddresses();
+        this.handleGetUserData();
     }
 
     handleUpdateProduct = (e, key) => {
@@ -137,6 +130,31 @@ class Order extends Component {
             .then((res) => res.json())
             .then((data) => {
                 this.setState({ payments_methods: data.payments_methods });
+            })
+            .catch(console.log);
+    };
+
+    handleGetUserData = () => {
+        const { state } = this;
+        const { cart } = state;
+        const endpoint = "http://localhost:8000/ajax/account/user";
+
+        fetch(endpoint)
+            .then((res) => res.json())
+            .then((data) => {
+                const user = data.user;
+                cart.customer = {
+                    name: user.name,
+                    last_name: user.last_name,
+                    phone_number: user.phone_number,
+                    document_number: user.document_number,
+                    business_name: user.business_name,
+                    ruc: user.ruc,
+                    email: user.email,
+                    address_id: null,
+                };
+
+                this.setState({ user: data.user, cart: cart });
             })
             .catch(console.log);
     };

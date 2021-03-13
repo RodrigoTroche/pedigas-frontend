@@ -37,4 +37,5 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/orders', [OrdersController::class, 'store']);
 
     Route::get('/ajax/addresses', [App\Http\Controllers\Api\AddressesController::class, 'index']);
+    Route::get('/ajax/account/user', [App\Http\Controllers\Api\AccountController::class, 'user']);
 });
