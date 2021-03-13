@@ -23,6 +23,7 @@ Route::get('/sobre-nosotros', [App\Http\Controllers\PagesController::class, 'abo
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/mi-cuenta', [App\Http\Controllers\AccountController::class, 'index'])->name('account.index');
+    Route::get('/mi-cuenta/editar', [App\Http\Controllers\AccountController::class, 'edit'])->name('account.edit');
     Route::put('/mi-cuenta/update', [App\Http\Controllers\AccountController::class, 'update'])->name('account.update');
 
     Route::get('/mi-cuenta/direcciones', [App\Http\Controllers\AddressesController::class, 'index'])->name('addresses.index');

@@ -14,6 +14,11 @@ class AccountController extends Controller
         return view('templates.account.index');
     }
 
+    public function edit()
+    {
+        return view('templates.account.edit');
+    }
+
     public function update(Request $request)
     {
         try {
