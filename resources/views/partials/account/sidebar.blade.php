@@ -12,4 +12,13 @@
         class="list-group-item list-group-item-action {{ $active == 'orders' ? 'active' : null  }}">Mis
         pedidos</a>
 
+    <a href="{{ route('logout') }}" class="list-group-item list-group-item-action" onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+        {{ __('Logout') }}
+    </a>
+
+    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+        @csrf
+    </form>
+
 </div>

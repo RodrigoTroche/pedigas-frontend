@@ -3,8 +3,11 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center mb-3">
-        <div class="col-lg-12 text-center">
+        <div class="col-lg-8 text-center">
             <h2>{{ $address->exists ? 'Editar dirección' : 'Nueva dirección' }}</h2>
+            @if($address->exists)
+            <p>Aquí puedes crear una dirección para facilitarnos<br> la entrega de tu garrafa :)</p>
+            @endif
         </div>
     </div>
 
