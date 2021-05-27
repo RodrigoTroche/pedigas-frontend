@@ -1,0 +1,25 @@
+body {
+    font-family: "Oxygen", sans-serif;
+}
+
+.nav-item {
+    font-family: "Fredoka One", cursive;
+}
+.hero-title {
+    padding: 30px 0;
+}
+.hero-title h1 {
+    color: #fff;
+    font-weight: bold;
+    font-family: "Fredoka One", cursive;
+}
+.pedigas-btn-rounded {
+    font-family: "Oxygen", sans-serif;
+    font-weight: bold;
+    border-radius: 30px;
+}
+.whatsapp-button {
+    background-color: #25d366;
+    color: #fff;
+    border-color: #25d366;
+}
