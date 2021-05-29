@@ -9,14 +9,22 @@
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('pages.about') }}">Pedido</a>
+                    <a class="nav-link" href="{{ url('') }}">Inicio</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('pages.order') }}">Ayuda</a>
+                    <a class="nav-link" href="{{ route('pages.order') }}">Pedido</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('pages.about') }}">Ayuda</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('pages.order') }}">Términos</a>
                 </li>
+                @auth
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('account.index') }}">Mi cuenta</a>
+                </li>
+                @endauth
             </ul>
         </div>
     </div>

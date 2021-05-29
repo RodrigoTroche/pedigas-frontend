@@ -1,19 +1,8 @@
 @extends('layouts.app')
 
-@section('content')
-<div class="hero bg-orange py-3">
-    @include('partials.navigation')
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 text-center">
-                <div class="hero-title">
-                    <h1 class="">Bienvenido a Pedigas</h1>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+@section('header-title', Auth::user() ? 'Hola, ' . Auth::user()->full_name :  'Bienvenidos a Pedigas')
 
+@section('content')
 <div class="container py-5">
     <div class="row justify-content-center align-items-center">
         <div class="col-md-4">
@@ -31,10 +20,10 @@
                 <a href="{{ route('register') }}" class="btn btn-primary pedigas-btn-rounded">Registrarme</a>
                 @endif
                 @else
-                <a href="{{ route('login') }}" class="btn btn-primary pedigas-btn-rounded" type="button">
+                <a href="{{ route('pages.order') }}" class="btn btn-primary pedigas-btn-rounded" type="button">
                     Hacer pedido aquí
                 </a>
-                <a href="{{ route('login') }}" class="btn btn-primary pedigas-btn-rounded whatsapp-button"
+                <a href="{{ route('pages.order') }}" class="btn btn-primary pedigas-btn-rounded whatsapp-button"
                     type="button">
                     Pedir por WhatsApp
                 </a>

@@ -127,7 +127,7 @@
 
                     <div>
                         <button
-                            class="btn btn-primary w-100">{{ $address->exists ? 'Actualizar dirección' : 'Crear dirección' }}</button>
+                            class="btn btn-primary w-100 pedigas-btn-rounded">{{ $address->exists ? 'Actualizar dirección' : 'Crear dirección' }}</button>
                     </div>
                     </form>
                 </div>

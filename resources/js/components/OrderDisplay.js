@@ -11,11 +11,6 @@ class OrderDisplay extends Component {
         return (
             <React.Fragment>
                 <div className="row justify-content-center">
-                    <div className="col-md-8 text-center">
-                        <h3>¡Hacé tu Pedido Acá!</h3>
-                    </div>
-                </div>
-                <div className="row justify-content-center">
                     <div className="col-md-8">
                         <div className="card mb-4 mt-4">
                             <div className="card-body">

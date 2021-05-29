@@ -1,13 +1,9 @@
 @extends('layouts.app')
 
+@section('header-title', 'Mis pedidos')
+
 @section('content')
 <div class="container">
-    <div class="row justify-content-center mb-3">
-        <div class="col-lg-12 text-center">
-            <h2>Mis pedidos</h2>
-        </div>
-    </div>
-
     @include('partials.account.message')
 
     <div class="row justify-content-center">

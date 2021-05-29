@@ -1,13 +1,9 @@
 @extends('layouts.app')
 
+@section('header-title', 'Editar mis datos')
+
 @section('content')
 <div class="container">
-    <div class="row justify-content-center mb-3">
-        <div class="col-lg-12 text-center">
-            <h2>Editar mis datos</h2>
-        </div>
-    </div>
-
     <div class="row justify-content-center mb-3">
         <div class="col-lg-9 text-center">
             @if(Session::has('message'))

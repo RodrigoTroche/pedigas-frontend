@@ -22,8 +22,9 @@
 
 
     <!-- Styles -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous"> --}}
+    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
     <script>
     var csrf_token = '<?php echo csrf_token(); ?>';
     </script>
@@ -116,10 +117,37 @@
     </nav>
     --}}
 
-    <main class="">
+    <main id="main" class="" style="opacity: 0">
+        <div class="header-app bg-orange py-3">
+            @include('partials.navigation')
+
+            @hasSection('header-title')
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <div class="hero-title">
+                            <h1 class="">@yield('header-title')</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endif
+        </div>
         @yield('content')
     </main>
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script>
+        $(window).on('load', function() {
+            $('#main').animate({
+            opacity: "1",
+            transition: "opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms"
+        }, 500)
+        })
+        
+    </script>
 </body>
 
 </html>
